@@ -5,5 +5,7 @@ import com.vighnesh153.userservice.models.User;
 
 public interface UserService {
 
-    public User registerUser(UserDto userDto);
+    User registerUser(UserDto userDto);
+
+    User validateUser(String token);
 }
