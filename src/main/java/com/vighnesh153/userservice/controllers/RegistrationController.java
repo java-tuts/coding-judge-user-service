@@ -82,4 +82,13 @@ public class RegistrationController {
         Boolean isLoggedIn = userService.isUserLoggedIn(sessionToken);
         return new ResponseDto<>(isLoggedIn, HttpStatus.OK);
     }
+
+    @GetMapping("/user/logout")
+    private ResponseDto<Boolean> logoutUser(@CookieValue(SESSION_COOKIE_NAME) String sessionToken) {
+        Boolean loggedOut = userService.logoutUser(sessionToken);
+        return new ResponseDto<>(
+                loggedOut,
+                loggedOut ? HttpStatus.OK : HttpStatus.BAD_REQUEST
+        );
+    }
 }

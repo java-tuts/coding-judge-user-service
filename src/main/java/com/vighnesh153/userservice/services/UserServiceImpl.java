@@ -126,4 +126,17 @@ public class UserServiceImpl implements UserService {
 
         return true;
     }
+
+    @Override
+    public Boolean logoutUser(String sessionToken) {
+        Session session = sessionRepository.findBySessionToken(sessionToken);
+
+        if (session == null) {
+            log.info("(LOGOUT) Session doesn't exist for with token: " + sessionToken);
+            return false;
+        }
+
+        sessionRepository.delete(session);
+        return true;
+    }
 }

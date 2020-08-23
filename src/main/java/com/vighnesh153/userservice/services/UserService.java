@@ -14,4 +14,6 @@ public interface UserService {
     Session loginUser(UserLoginDto userLoginDto);
 
     Boolean isUserLoggedIn(String sessionToken);
+
+    Boolean logoutUser(String sessionToken);
 }
