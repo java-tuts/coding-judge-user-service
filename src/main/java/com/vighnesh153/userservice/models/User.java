@@ -42,5 +42,6 @@ public class User {
 
 
     // TODO: Check if email is valid
+    @Column(unique = true)
     private String email;
 }

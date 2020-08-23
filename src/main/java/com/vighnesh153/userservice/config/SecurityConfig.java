@@ -2,6 +2,8 @@ package com.vighnesh153.userservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -29,5 +31,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginProcessingUrl("/processLoginHere");
+    }
+
+    /*
+    * Disables the authentication part of Spring Security (no login configuration is done now)
+    */
+    @Bean
+    @Override
+    protected AuthenticationManager authenticationManager() throws Exception {
+        return authentication -> {
+            throw new AuthenticationServiceException("Cannot authenticate " + authentication);
+        };
     }
 }

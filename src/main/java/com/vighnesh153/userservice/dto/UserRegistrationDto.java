@@ -8,12 +8,13 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-public class UserDto {
+public class UserRegistrationDto {
 
     @NotEmpty
     @Size(min = 5)
     private String fullName;
 
+    // TODO: Implement Custom Validators for email
     @NotEmpty
     @Size(min = 1)
     private String email;
