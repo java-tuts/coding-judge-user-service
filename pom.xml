@@ -16,7 +16,19 @@
 
     <properties>
         <java.version>14</java.version>
+        <logback-logdna.version>1.1.0</logback-logdna.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>bintray-robshep-oss</id>
+            <name>bintray</name>
+            <url>http://dl.bintray.com/robshep/oss</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
@@ -67,6 +79,12 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net._95point2.utils</groupId>
+            <artifactId>logback-logdna</artifactId>
+            <version>${logback-logdna.version}</version>
         </dependency>
     </dependencies>
 
