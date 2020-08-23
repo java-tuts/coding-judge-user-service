@@ -64,17 +64,17 @@ public class RegistrationController {
         }
 
         User user = session.getUser();
-        ResponseCookie cookie = ResponseCookie
-                .from(SESSION_COOKIE_NAME, session.getSessionToken())
-                .maxAge(Duration.ofMinutes(Session.getVALIDITY_TIME_IN_MINUTES()))
-                .sameSite("Strict")
-                .path("/")
-                .httpOnly(true)
-                .secure(true)
-                .build();
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(
-                new UserResponseDto(user.getId(), user.getFullName(), user.isActive(), user.getEmail())
+        ResponseCookie cookie = getSessionCookie(
+                session.getSessionToken(),
+                Duration.ofMinutes(Session.getVALIDITY_TIME_IN_MINUTES())
         );
+        UserResponseDto responseDto = new UserResponseDto(
+                user.getId(), user.getFullName(), user.isActive(), user.getEmail()
+        );
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(responseDto);
     }
 
     @GetMapping("/user/isLoggedIn")
@@ -84,11 +84,23 @@ public class RegistrationController {
     }
 
     @GetMapping("/user/logout")
-    private ResponseDto<Boolean> logoutUser(@CookieValue(SESSION_COOKIE_NAME) String sessionToken) {
+    private ResponseEntity<Boolean> logoutUser(@CookieValue(SESSION_COOKIE_NAME) String sessionToken) {
         Boolean loggedOut = userService.logoutUser(sessionToken);
-        return new ResponseDto<>(
-                loggedOut,
-                loggedOut ? HttpStatus.OK : HttpStatus.BAD_REQUEST
-        );
+        ResponseCookie cookie = getSessionCookie("", Duration.ZERO);
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(loggedOut);
+    }
+
+    private ResponseCookie getSessionCookie(String value, Duration maxAge) {
+        return ResponseCookie
+                .from(SESSION_COOKIE_NAME, value)
+                .maxAge(maxAge)
+                .sameSite("Strict")
+                .path("/")
+                .httpOnly(true)
+                .secure(true)
+                .build();
     }
 }
