@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User registerUser(UserRegistrationDto userRegistrationDto) {
         if (userRepository.findByEmail(userRegistrationDto.getEmail()) != null) {
-            // TODO: throw Exception
+            return null;
         }
 
         User user = new User();

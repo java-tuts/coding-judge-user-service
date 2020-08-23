@@ -33,6 +33,9 @@ public class RegistrationController {
     public ResponseDto<UserResponseDto> registerUser(@Valid @RequestBody UserRegistrationDto userRegistrationDto) {
         log.info("Received registration request got " + userRegistrationDto.getEmail());
         User user = userService.registerUser(userRegistrationDto);
+        if (user == null) {
+            return new ResponseDto<>(null, HttpStatus.BAD_REQUEST);
+        }
         return new ResponseDto<>(
                 new UserResponseDto(user.getId(), user.getFullName(), user.isActive(), user.getEmail()),
                 HttpStatus.OK

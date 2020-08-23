@@ -1,5 +1,6 @@
 package com.vighnesh153.userservice.models;
 
+import com.vighnesh153.userservice.annotations.EmailAddress;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,7 +42,7 @@ public class User {
     // parameters passed.
 
 
-    // TODO: Check if email is valid
     @Column(unique = true)
+    @EmailAddress
     private String email;
 }
